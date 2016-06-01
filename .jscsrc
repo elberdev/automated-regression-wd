@@ -1,0 +1,14 @@
+{
+  "preset": "airbnb",
+  "requireDotNotation": false,
+  "disallowQuotedKeysInObjects": false,
+  "disallowYodaConditions": false,
+  "disallowTrailingComma": true,
+  "requireTrailingComma": false,
+  "safeContextKeyword": "self",
+  "maximumLineLength": null,
+  "requireSpacesInAnonymousFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "excludeFiles": ["src/VERSION"]
+}
