@@ -10,7 +10,6 @@
     "colors": "^1.0.3",
     "express": "^4.12.3",
     "mocha": "^2.4.5",
-    "pug": "^2.0.0-alpha8",
     "wd": "^0.3.11"
   },
   "scripts": {
@@ -21,5 +20,10 @@
     "sample",
     "example"
   ],
-  "author": "Yieldmo, Inc"
+  "author": "Yieldmo, Inc",
+  "dependencies": {
+    "appium": "^1.5.2",
+    "pug": "^2.0.0-alpha8",
+    "underscore": "^1.8.3"
+  }
 }
