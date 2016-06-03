@@ -5,7 +5,7 @@ exports.ios93 = {
   platformVersion: '9.3',
   deviceName: 'iPhone 6',
   deviceOrientation: 'portrait',
-  autoAcceptsAlerts: true,
+  autoAcceptAlerts: true,
   fixSessionCapabilities: false,
   app: undefined // will be set later in code
 };
