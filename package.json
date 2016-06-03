@@ -4,16 +4,8 @@
   "private": true,
   "description": "Appium sample code",
   "main": "index.js",
-  "devDependencies": {
-    "chai": "^2.2.0",
-    "chai-as-promised": "^5.0.0",
-    "colors": "^1.0.3",
-    "express": "^4.12.3",
-    "mocha": "^2.4.5",
-    "wd": "^0.3.11"
-  },
   "scripts": {
-    "ios-local-server": "mocha ios-local-server.js"
+    "ios-local-server": "mocha ios.tests.js"
   },
   "keywords": [
     "appium",
@@ -23,7 +15,13 @@
   "author": "Yieldmo, Inc",
   "dependencies": {
     "appium": "^1.5.2",
+    "chai": "^2.2.0",
+    "chai-as-promised": "^5.0.0",
+    "colors": "^1.0.3",
+    "express": "^4.12.3",
+    "mocha": "^2.4.5",
     "pug": "^2.0.0-alpha8",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "wd": "^0.3.11"
   }
 }
