@@ -26,32 +26,68 @@ function demo2Suite(formatNames) {
     this.timeout(300000);
     var driver;
     var allPassed = true;
-    var formatIndex = 9;
+    var formatIndex = 0;
 
-    for (var i = 9; i < formatNames.length; i++) {
+    // element paths
+    var navBarText = '//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAStaticText[1]';
+    var navBarBackButton = '//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]';
+    var formatCellPartial = '//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[';
+    var cellBelowAd = '//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[18]';
+    var adCell = '//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[15]';
+    var webViewCloseButton = '//UIAApplication[1]/UIAWindow[1]/UIAToolbar[1]/UIAButton[1]';
+
+    for (var i = 0; i < formatNames.length; i++) {
 
       var formatName = formatNames[i];
+      var navBarTitle = '';
       describe(formatName, function () {
 
-        // scroll to format and click on it, check for modal webview
-        it('should open placement webview', function () {
+        it('should open specific format tableview', function () {
+          // UIAutomation element indices start at 1. We adjust accordingly
           formatIndex += 1;
 
-          // formats 10, 11, and 12 do dot require button presses
-          var button = (formatIndex > 9 && formatIndex < 13) ? '' : '/UIAButton[1]';
-
+          // scroll down if the format title is far down enough in the tableview
           if (formatIndex > 8) {
             driver.execute('mobile: scroll', [{ direction: 'down' }]);
           }
 
+          // navigate to format's demo tableview and verify that the navbar title is different
           return driver
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[' + formatIndex + ']')
+            .elementByXPath(navBarText)
+            .then(function (element) {
+              return element.getAttribute('value');
+            })
+            .then(function(text) {
+              navBarTitle = text;
+              return;
+            })
+            .elementByXPath(formatCellPartial + formatIndex + ']')
             .click()
             .sleep(1000)
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[18]')
+            .elementByXPath(navBarText)
+            .then(function (element) {
+              return element.getAttribute('value');
+            })
+            .then(function (text) {
+              return text.should.not.equal(navBarTitle);
+            });
+        });
+
+        it('should open ad webview', function () {
+          // formats 10, 11, and 12 do dot require button presses
+          var button = (formatIndex > 9 && formatIndex < 13) ? '' : '/UIAButton[1]';
+
+          /* just testing the height property here. Will use this to check if ad has loaded */
+          // var element = driver.elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[3]');
+          // var size = element.getSize().then(function(size) {
+          //   console.log(size.height);
+          // });
+
+          return driver
+            .elementByXPath(cellBelowAd)
             .click()
             .sleep(1000)
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[15]' + button)
+            .elementByXPath(adCell + button)
             .click()
             .sleep(2000)
             .contexts()
@@ -86,9 +122,9 @@ function demo2Suite(formatNames) {
         // close webview and check context count
         it('webview should close properly', function () {
           return driver
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIAToolbar[1]/UIAButton[1]')
+            .elementByXPath(webViewCloseButton)
             .click()
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]')
+            .elementByXPath(navBarBackButton)
             .currentContext()
             .then(function (context) {
               return context.should.equal(nativeAppContext);
@@ -98,14 +134,15 @@ function demo2Suite(formatNames) {
         // return to fomat list
         it('should navigate back to formats tableview', function () {
           return driver
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]')
+            .sleep(1000)
+            .elementByXPath(navBarBackButton)
             .click()
-            .elementByXPath('//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]')
-            .sleep(2000)
+            .elementByXPath(navBarText)
             .then(function (element) {
-              // var name = element.name;
-              // return name.should.equal('All Formats');
-              return true;
+              return element.getAttribute('value');
+            })
+            .then(function (text) {
+              return text.should.equal(navBarTitle);
             });
         });
       });
