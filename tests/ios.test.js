@@ -4,12 +4,12 @@
 
 'use strict';
 
-require('./helpers/setup');
+require('../config/setup');
 
 var wd = require('wd');
 var _ = require('underscore');
-var serverConfigs = require('./helpers/appium-servers');
-var localServer = require('./helpers/local-server');
+var serverConfigs = require('../config/appium-servers');
+var localServer = require('../config/local-server');
 
 var webViewContext = 'WEBVIEW_1';
 var nativeAppContext = 'NATIVE_APP';
@@ -153,14 +153,14 @@ function demo2Suite(formatNames) {
       localServer.start();
       var serverConfig = serverConfigs.local;
       driver = wd.promiseChainRemote(serverConfig);
-      require('./helpers/logging').configure(driver);
+      require('../config/logging').configure(driver);
 
-      var desired = _.clone(require('./helpers/caps').ios93);
+      var desired = _.clone(require('../config/caps').ios93);
       desired.app = '/Users/elbercarneiro/Desktop/Demo2.app';
-      if (process.env.npm_package_config_sauce) {
-        desired.name = 'ios - local server';
-        desired.tags = ['sample'];
-      }
+      // if (process.env.npm_package_config_sauce) {
+      //   desired.name = 'ios - local server';
+      //   desired.tags = ['sample'];
+      // }
 
       return driver.init(desired);
     });
@@ -171,9 +171,9 @@ function demo2Suite(formatNames) {
       return driver
         .quit()
         .finally(function () {
-          if (process.env.npm_package_config_sauce) {
-            return driver.sauceJobStatus(allPassed);
-          }
+          // if (process.env.npm_package_config_sauce) {
+          //   return driver.sauceJobStatus(allPassed);
+          // }
         });
     });
 

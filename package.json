@@ -5,7 +5,7 @@
   "description": "Appium sample code",
   "main": "index.js",
   "scripts": {
-    "ios-local-server": "mocha ios.tests.js"
+    "ios-tests": "mocha ./tests/ios.test.js"
   },
   "keywords": [
     "appium",
